@@ -187,9 +187,19 @@ public class ClassInfoController extends BaseController{
 	}
 	@RequestMapping("/deleteClass")
 	public void deleteClass(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		String result = "{\"result\":\"error\"}";
+		try{
 		String classIdStr = request.getParameter("classId");
 		Integer classId = Integer.parseInt(classIdStr);
 		Class_bean cb = classService.getClassByClass(classId);
-		classService.delete(cb);
+		classService.delete(cb);result = "{\"result\":\"success\"}";}
+		catch(Exception e){e.printStackTrace();}
+		response.setContentType("application/json");
+		try {
+			PrintWriter out = response.getWriter();
+			out.write(result);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
